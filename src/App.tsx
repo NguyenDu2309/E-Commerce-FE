@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
@@ -7,6 +7,14 @@ function App() {
       { name: 'Smartphone', price: 699 },
       { name: 'Tablet', price: 499 },
    ]);
+
+   useEffect(() => {
+      fetch('https://localhost:3000/api/products')
+         .then(response => response.json())
+         .then(data => setProducts(data))
+         .catch(error => console.error('Error fetching products:', error));
+   });
+
    function addProduct(name: string, price: number) {
       setProducts(prevState => [...prevState, { name: "Monitor" + prevState.length + 1, price: (prevState.length * 100) + 100 }]);
    }
