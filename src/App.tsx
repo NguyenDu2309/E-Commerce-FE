@@ -9,11 +9,11 @@ function App() {
    ]);
 
    useEffect(() => {
-      fetch('https://localhost:3000/api/products')
+      fetch('http://localhost:5248/api/products')
          .then(response => response.json())
          .then(data => setProducts(data))
          .catch(error => console.error('Error fetching products:', error));
-   });
+   }, []);
 
    function addProduct(name: string, price: number) {
       setProducts(prevState => [...prevState, { name: "Monitor" + prevState.length + 1, price: (prevState.length * 100) + 100 }]);
