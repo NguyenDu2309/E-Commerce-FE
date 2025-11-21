@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { Product } from "./products";
 
 function App() {
-   const [products, setProducts] = useState([
-      { name: 'Laptop', price: 999 },
-      { name: 'Smartphone', price: 699 },
-      { name: 'Tablet', price: 499 },
-   ]);
+   const [products, setProducts] = useState<Product[]>([]);
 
    useEffect(() => {
       fetch('http://localhost:5248/api/products')
@@ -15,16 +12,27 @@ function App() {
          .catch(error => console.error('Error fetching products:', error));
    }, []);
 
-   function addProduct(name: string, price: number) {
-      setProducts(prevState => [...prevState, { name: "Monitor" + prevState.length + 1, price: (prevState.length * 100) + 100 }]);
+   function addProduct(name: string, price: number) 
+   {
+      setProducts(prevState => [...prevState, 
+         { 
+            id: prevState.length + 1,
+            name: "Monitor" + prevState.length + 1, 
+            price: (prevState.length * 100) + 100,
+            description: "A high-resolution monitor",
+            pictureUrl: "http://example.com/monitor.jpg",
+            type: "Electronics",
+            brand: "Generic",
+            quantityInStock: 50
+         }]);
    }
    return (
       <div>
          <h1 style={{ color: 'red' }}>Re-Store</h1>
          <ul>
-            {products.map((item, index) => (
-               <li key={index}>
-                  {item.name}: ${item.price}
+            {products.map(product => (
+               <li key={product.id}>
+                  {product.name}: ${product.price}
                </li>
             ))}
          </ul>
