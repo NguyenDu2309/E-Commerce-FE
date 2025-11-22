@@ -23,7 +23,7 @@ function App() {
             name: "Monitor" + prevState.length + 1, 
             price: (prevState.length * 100) + 100,
             description: "A high-resolution monitor",
-            pictureUrl: "http://example.com/monitor.jpg",
+            pictureUrl: "images/hero1.jpg",
             type: "Electronics",
             brand: "Generic",
             quantityInStock: 50
