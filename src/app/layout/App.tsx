@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Product } from "./products";
+import { Product } from "../models/products";
+import Catalog from "../../features/catalog/Catalog";
+import Typography from '@mui/material/Typography';
+
 
 function App() {
    const [products, setProducts] = useState<Product[]>([]);
@@ -12,7 +15,7 @@ function App() {
          .catch(error => console.error('Error fetching products:', error));
    }, []);
 
-   function addProduct(name: string, price: number) 
+   function addProduct() 
    {
       setProducts(prevState => [...prevState, 
          { 
@@ -28,15 +31,8 @@ function App() {
    }
    return (
       <div>
-         <h1 style={{ color: 'red' }}>Re-Store</h1>
-         <ul>
-            {products.map(product => (
-               <li key={product.id}>
-                  {product.name}: ${product.price}
-               </li>
-            ))}
-         </ul>
-         <button onClick={() => addProduct("Monitor", 399)}>Add Monitor</button>
+         <Typography variant="h1">Re-Store</Typography> 
+         <Catalog products = {products} addProduct={addProduct} />
       </div>
    );
 }
