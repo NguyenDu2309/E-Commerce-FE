@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Product } from "../models/products";
 import Catalog from "../../features/catalog/Catalog";
-import Typography from '@mui/material/Typography';
+import Header from "./Header";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 
 
 function App() {
@@ -30,10 +32,13 @@ function App() {
          }]);
    }
    return (
-      <div>
-         <Typography variant="h1">Re-Store</Typography> 
-         <Catalog products = {products} addProduct={addProduct} />
-      </div>
+      <>
+         <CssBaseline/>
+         <Header/>
+         <Container>
+            <Catalog products = {products} addProduct={addProduct} />
+         </Container>
+      </>
    );
 }
 
