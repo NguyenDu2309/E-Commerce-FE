@@ -4,7 +4,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { text } from "stream/consumers";
 interface Props {
   darkMode: boolean;
   handleThemeChange: () => void;
