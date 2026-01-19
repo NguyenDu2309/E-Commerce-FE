@@ -1,6 +1,6 @@
 import axios, {AxiosResponse, AxiosError} from "axios";
 import { toast } from "react-toastify";
-
+import { history } from "../..";
 axios.defaults.baseURL = "http://localhost:5248/api/";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -49,7 +49,12 @@ axios.interceptors.response.use(
                 toast.error(data?.title || "Not Found");
                 break;
             case 500:
-                toast.error(data?.title || "Server Error");
+                history.push(
+                    {
+                        pathname: "/server-error",
+                        state: {error: data}
+                    }
+                );
                 break;
             default:
                 toast.error("An error occurred");
