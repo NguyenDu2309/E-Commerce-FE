@@ -6,7 +6,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import HomePage from "../../features/home/HomePage";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
@@ -44,21 +45,21 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      <ToastContainer position="bottom-right" hideProgressBar />
       <Header
         darkMode={darkMode}
         handleThemeChange={handleThemeChange}
       />
-
       <Container>
-          <Routes>
-          <Route path='/' Component={HomePage} />          
-          <Route path='/catalog' element={<Catalog products={products} />} />
+        <Routes>
+          <Route path='/' Component={HomePage} />
+          <Route path='/catalog' Component={Catalog} />
           <Route path='/catalog/:id' Component={ProductDetails} />
           <Route path='/about' Component={AboutPage} />
           <Route path='/contact' Component={ContactPage} />
-          </Routes>
+        </Routes>
       </Container>
+      <CssBaseline />
     </ThemeProvider>
   );
 }

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import Grid from "@mui/material/Grid";
 import {
   Box,
   Typography,
@@ -15,6 +14,7 @@ import {
 } from "@mui/material";
 
 import { Product } from "../../app/models/products";
+import agent from "../../app/api/agent";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
@@ -23,9 +23,8 @@ export default function ProductDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5248/api/products/${id}`)
-      .then((res) => setProduct(res.data))
+    agent.Catalog.details<Product>(parseInt(id!))
+      .then((res) => setProduct(res))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [id]);
@@ -34,9 +33,9 @@ export default function ProductDetails() {
   if (!product) return <Typography variant="h2">Product not found</Typography>;
 
   return (
-    <Grid container spacing={6}>
+    <Box sx={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
       {/* IMAGE */}
-      <Grid item xs={12} md={6} component="div">
+      <Box sx={{ flex: { xs: "1 1 100%", md: "1 1 45%" } }}>
         <Paper
           elevation={3}
           sx={{
@@ -57,10 +56,10 @@ export default function ProductDetails() {
             }}
           />
         </Paper>
-      </Grid>
+      </Box>
 
       {/* DETAILS */}
-      <Grid item xs={12} md={6} component="div">
+      <Box sx={{ flex: { xs: "1 1 100%", md: "1 1 45%" } }}>
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Typography variant="h4" fontWeight="bold">
             {product.name}
@@ -115,7 +114,7 @@ export default function ProductDetails() {
             </TableBody>
           </TableContainer>
         </Paper>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   );
 }
