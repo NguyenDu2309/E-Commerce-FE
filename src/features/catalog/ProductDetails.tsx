@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 
 import {
   Box,
@@ -15,6 +14,7 @@ import {
 
 import { Product } from "../../app/models/products";
 import agent from "../../app/api/agent";
+import NotFound from "../../app/error/NotFound";
 
 export default function ProductDetails() {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +30,7 @@ export default function ProductDetails() {
   }, [id]);
 
   if (loading) return <Typography variant="h2">Loading...</Typography>;
-  if (!product) return <Typography variant="h2">Product not found</Typography>;
+  if (!product) return <NotFound />;
 
   return (
     <Box sx={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
