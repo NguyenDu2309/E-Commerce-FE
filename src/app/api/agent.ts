@@ -1,6 +1,9 @@
 import axios, {AxiosResponse, AxiosError} from "axios";
 import { toast } from "react-toastify";
 import { history } from "../..";
+
+const sleep = () => new Promise(resolve => setTimeout(resolve, 1000));
+
 axios.defaults.baseURL = "http://localhost:5248/api/";
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -13,7 +16,8 @@ interface ValidationError {
 }
 
 axios.interceptors.response.use(
-    response => {
+    async response => {
+        await sleep();
         return response;
     }, 
     (error: AxiosError<ValidationError>) => {
