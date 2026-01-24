@@ -5,6 +5,8 @@ import { history } from "../..";
 const sleep = () => new Promise(resolve => setTimeout(resolve, 1000));
 
 axios.defaults.baseURL = "http://localhost:5248/api/";
+axios.defaults.withCredentials = true;
+
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
@@ -69,29 +71,44 @@ axios.interceptors.response.use(
     }
 );
 
-const requests = {  
-    get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
-    del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
-};
+const requests = {
+    get: (url: string, params?: URLSearchParams) => axios.get(url, {params}).then(responseBody),
+    post: (url: string, body: object) => axios.post(url, body).then(responseBody),
+    put: (url: string, body: object) => axios.put(url, body).then(responseBody),
+    del: (url: string) => axios.delete(url).then(responseBody),
+    postForm: (url: string, data: FormData) => axios.post(url, data, {
+        headers: {'Content-type': 'multipart/form-data'}
+    }).then(responseBody),
+    putForm: (url: string, data: FormData) => axios.put(url, data, {
+        headers: {'Content-type': 'multipart/form-data'}
+    }).then(responseBody)
+}
 
 const Catalog = {
-    list: <T>() => requests.get<T>("products"),
-    details: <T>(id: number) => requests.get<T>(`products/${id}`),
-};
+    list: (params: URLSearchParams) => requests.get('products', params),
+    details: (id: number) => requests.get(`products/${id}`),
+    fetchFilters: () => requests.get('products/filters')
+}
 
-const TestErrors = {  
-    get400Error: () => requests.get<any>("buggy/bad-request"),
-    get401Error: () => requests.get<any>("buggy/unauthorized"),
-    get404Error: () => requests.get<any>("buggy/not-found"),
-    get500Error: () => requests.get<any>("buggy/server-error"),
-    getValidationError: () => requests.get<any>("buggy/validation-error"),
-};
+const TestErrors = {
+    get400Error: () => requests.get('buggy/bad-request'),
+    get401Error: () => requests.get('buggy/unauthorised'),
+    get404Error: () => requests.get('buggy/not-found'),
+    get500Error: () => requests.get('buggy/server-error'),
+    getValidationError: () => requests.get('buggy/validation-error')
+}
+
+const Basket = {
+    get: () => requests.get('basket'),
+    addItem: (productId: number, quantity = 1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+    removeItem: (productId: number, quantity = 1) => requests.del(`basket?productId=${productId}&quantity=${quantity}`)
+}
+
 
 const agent = {
     Catalog,
-    TestErrors
+    TestErrors,
+    Basket
 };
 
 export default agent;

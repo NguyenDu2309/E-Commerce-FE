@@ -2,7 +2,7 @@ import { Badge, Box, IconButton, List, ListItem, Switch } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 interface Props {
   darkMode: boolean;
@@ -49,7 +49,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
           ))}
         </List>
         <Box display='flex' alignItems='center'>
-          <IconButton size="large" color="inherit">
+          <IconButton component={Link} to="/basket" size="large" color="inherit">
             <Badge badgeContent={4} color="secondary">
               <ShoppingCartIcon />
             </Badge>
