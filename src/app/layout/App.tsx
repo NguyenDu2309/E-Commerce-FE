@@ -15,8 +15,26 @@ import ContactPage from "../../features/contact/ContactPage";
 import ServerError from "../error/ServerError";
 import NotFound from "../error/NotFound";
 import BasketPage from "../../features/basket/BasketPage";
+import { useStoreContext } from "../context/StoreContext";
+import agent from "../api/agent";
+import { getCookie } from "../util/util";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
+
+  const {setBasket} = useStoreContext();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const buyerId = getCookie("buyerId");
+    if (buyerId) {
+      setLoading(true);
+      agent.Basket.get()
+        .then(basket => setBasket(basket))
+        .catch(() => console.log("No existing basket"))
+        .finally(() => setLoading(false));
+    }
+  }, [setBasket]);
 
   const [darkMode, setDarkMode] = useState(false);
   const paletteType = darkMode ? "dark" : "light";
@@ -45,6 +63,8 @@ function App() {
   function handleThemeChange() {
     setDarkMode(prev => !prev);
   }
+
+  if (loading) return <LoadingComponent message="Initalising app..."/>
 
   return (
     <ThemeProvider theme={theme}>
