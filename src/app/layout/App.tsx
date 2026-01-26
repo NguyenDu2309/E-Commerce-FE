@@ -33,6 +33,8 @@ function App() {
         .then(basket => setBasket(basket))
         .catch(() => console.log("No existing basket"))
         .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [setBasket]);
 
@@ -64,7 +66,7 @@ function App() {
     setDarkMode(prev => !prev);
   }
 
-  if (loading) return <LoadingComponent message="Initalising app..."/>
+  if (loading) return <LoadingComponent message="Initialising app..."/>
 
   return (
     <ThemeProvider theme={theme}>
