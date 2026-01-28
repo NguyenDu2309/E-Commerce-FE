@@ -1,7 +1,6 @@
 import {
     Box,
     Button,
-    IconButton,
     Paper,
     Table,
     TableBody,
@@ -16,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useStoreContext } from "../../app/context/StoreContext";
 import { useState } from "react";
 import agent from "../../app/api/agent";
+import BasketSummary from "./BasketSummary";
 
 export default function BasketPage() {
     const {basket, setBasket, removeItem} = useStoreContext();
@@ -44,6 +44,7 @@ export default function BasketPage() {
         return <Typography>Your basket is empty</Typography>;
 
     return (
+        <>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
@@ -105,5 +106,11 @@ export default function BasketPage() {
                 </TableBody>
             </Table>
         </TableContainer>
-    );
+        <Box sx={{ display: 'flex' }}>
+  <Box sx={{ width: 400, ml: 'auto' }}>
+    <BasketSummary />
+  </Box>
+</Box>
+        </>
+    )
 }
